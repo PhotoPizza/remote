@@ -48,6 +48,16 @@ For detailed build instructions, see [BUILD_INSTRUCTIONS.md](android/BUILD_INSTR
 
 ## Usage
 
+### Quick Start
+
+For quick installation, you can use the pre-built APK file included in this repository:
+
+1. Download [PhotoPizza.apk](https://github.com/PhotoPizza/remote/raw/master/PhotoPizza.apk) directly from GitHub
+2. Install it on your Android device
+3. Allow installation from unknown sources if prompted
+
+### Using the App
+
 1. Connect your Android device to the same WiFi network as your PhotoPizza device
 2. Enter the IP address of your PhotoPizza device (default is 192.168.4.1)
 3. Configure your settings (frames, speed, pause, delay)
@@ -81,6 +91,7 @@ The test server emulates all the functionality of the PhotoPizza device, allowin
 - `uilib/` - Original web UI library (for reference)
 - `remote.js` - Original JavaScript code (for reference)
 - `index.html` - Original HTML interface (for reference)
+- `PhotoPizza.apk` - Pre-built Android application package
 
 ## License
 
