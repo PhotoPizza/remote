@@ -1,0 +1,329 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=no">
+	<title>PhotoPizza Remote Control</title>
+  <meta name="description" content="PRODUCT PHOTOGRAPHY AUTOMATIC TURNTABLE">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu+Condensed" rel="stylesheet">
+</head>
+<body>
+  <style>
+    body {
+      padding: 10px;
+      padding-top: 50px;
+      margin: 0;
+      font-family: 'Ubuntu Condensed', sans-serif;
+      
+			--mesh-step: 10px;
+      --primary-bg-color: #212121;
+			--primary-color: #81D4FA;
+			--secondary-bg-color: #FAFAFA;
+			--secondary-color: #212121;
+			--accent-color: #81D4FA;
+			--ui-height: 38px;
+
+      --theme-1: rgb(255, 213, 74);
+			--theme-2: #8BC34A;
+			--theme-3: rgb(145, 253, 239);
+			--theme-4: rgb(101, 224, 255);
+			--theme-5: #F48FB1;
+			--theme-6: rgb(220, 168, 255);
+			--theme-7: rgb(126, 221, 169);
+			--theme-8: rgb(174, 219, 255);
+			--theme-9: #ffcc6b;
+			
+			--theme-11: #97ffd4;
+      --theme-10: #ff8453;
+      background: linear-gradient(to bottom right, #42361e, var(--secondary-color));
+      /* background-color: var(--secondary-color); */
+      color: var(--theme-9);
+    }
+		caption-mkp {
+			font-size: 1.2em;
+		}
+    brwsr-shell {
+			
+
+			/* --styling-transform: skewY(-15deg); */
+			--styling-transform-origin: top left;
+    }
+		.logo {
+			padding: var(--mesh-step);
+			padding-bottom: calc(var(--mesh-step) * 2);
+		}
+		.logo logo-el {
+			--color-1: currentColor;
+			--color-2: var(--accent-color);
+		}
+
+    [tab-context] {
+      display: none;
+    }
+    body[current-tab="remote"] [tab-context="remote"] {
+      display: block;
+    }
+    body[current-tab="settings"] [tab-context="settings"] {
+      display: block;
+    }
+    .input-name {
+      min-width: 90px;
+      text-align: right;
+    }
+    .top-toolbar {
+      position: fixed;
+      padding: 10px;
+      top: 0;
+      left: 0;
+      right: 0;
+      color: var(--secondary-color);
+      background-color: var(--theme-9);
+      z-index: 1000;
+    }
+    .bottom-toolbar {
+      /* height: 100px; */
+      position: fixed;
+      padding: 10px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      color: var(--secondary-color);
+      background-color: var(--theme-9);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    body[state="open"] [disconnected] {
+			display: none;
+		}
+    [icon="open"] {
+      color: greenyellow;
+    }
+    [icon="close"] {
+      color: rgb(255, 70, 70);
+    }
+    .status {
+      width: var(--ui-height);
+      height: var(--ui-height);
+      min-width: var(--ui-height);
+      min-height: var(--ui-height);
+      background-color: currentColor;
+      border-radius: 5px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #frame-left {
+      font-size: 150px;
+    }
+    #photopizza {
+      width: 340px;
+      height: 340px;
+      min-width: 340px;
+      min-height: 340px;
+      /* background-color: #1b1b1b; */
+      border-radius: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: 2s;
+      color: #42361e;
+      background: radial-gradient(#ffcc6b, #a78548, #5f4c29);
+      /* transform: scale(0.7); */
+      /* border-style: dashed; */
+      /* border-color: currentColor; */
+      /* transform: rotate(360deg); */
+    }
+    #degree {
+      position: absolute;
+      width: 270px;
+      /* transform-origin: left center; */
+      text-align: right;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* height: 40px; */
+      /* border-radius: 100%; */
+      /* background-color: var(--theme-9); */
+      /* transform: translate(100px, 0); */
+      transition: 1s;
+    }
+    #turn-section {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      /* background-color: var(--secondary-color); */
+      border-radius: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* border-style: dashed; */
+      /* border-color: currentColor; */
+    }
+    #cursor-icon {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      min-width: 20px;
+      min-height: 20px;
+      /* background-color: currentColor; */
+      /* border-radius: 5px 0 5px 10px; */
+      transform: rotate(90deg);
+      right: 0;
+      transition: 1s;
+    }
+    .section-deg {
+      position: absolute;
+      width: 20px;
+      height: 3px;
+      background-color: #ffcc6b;
+      right: 0;
+      border-radius: 2px 2px 2px 2px;
+      transition: 1s;
+    }
+    /* #start-btn {
+      position: absolute;
+      display: flex;
+    } */
+    #save-btn :hover {
+      background-color: #ff8453;
+      color: #8BC34A;
+    }
+    @media screen and (orientation: portrait) { 
+      #photopizza {
+        transform: scale(0.7);
+      }
+    }
+  </style>
+  
+  <div class="top-toolbar">
+      <space-mkp min></space-mkp>
+    <column-mkp>
+      <flex-mkp v-center gap-min>
+        <div class="status">
+          <icon-ui id="status-icon" icon="close"></icon-ui>
+        </div>
+        <!-- <div class="input-name">PhotoPizza IP</div> -->
+        <input-ui type="url" id="ip-inp" placeholder="PhotoPizza IP"></input-ui>
+        <div disconnected>
+          <button-ui outline id="connect-btn" icon="connect">Connect</button-ui>
+        </div>
+        <!-- <button-ui outline id="save-btn">Save</button-ui>
+        <button-ui outline id="info-btn">Info</button-ui> -->
+      </flex-mkp>
+    </column-mkp>
+    <space-mkp min></space-mkp>
+  </div>
+  <space-mkp max></space-mkp>
+  <space-mkp max></space-mkp>
+  <column-mkp>
+    <flex-mkp  h-center gap-min>
+      <div id="photopizza">
+        <div id="turn-section"></div>
+        <div id="frame-left"></div>
+        <div id="degree">
+          <!-- <div icon="cursor" class="cursor"></div> -->
+          <icon-ui id="cursor-icon" icon="cursor"></icon-ui>
+        </div>
+      </div>
+    </flex-mkp>
+    <space-mkp max></space-mkp>  
+    <!-- <tabs-ui id="tab-selector">
+      <div active tab="remote" icon="remote">Remote Control</div>
+      <div tab="settings" icon="settings">Settings</div>
+    </tabs-ui> -->
+   
+    <flex-mkp wrap h-center gap-max>
+      <div>
+        <flex-mkp v-center gap-max>
+          <div class="input-name">Frames total</div>
+          <input-ui type="number" id="frame-inp" placeholder="Frames total"></input-ui>
+        </flex-mkp>
+
+        <space-mkp max></space-mkp>
+
+        <flex-mkp v-center gap-max>
+          <div class="input-name">Speed</div>
+          <input-ui type="number" id="speed-inp" placeholder="Speed"></input-ui>
+        </flex-mkp>
+    
+        <space-mkp max></space-mkp>
+
+        <flex-mkp v-center gap-max>
+          <div class="input-name">Pause</div>
+          <input-ui type="number" id="pause-inp" placeholder="Pause"></input-ui>
+        </flex-mkp>
+    
+        <space-mkp max></space-mkp>
+
+        <flex-mkp v-center gap-max>
+          <div class="input-name">Delay</div>
+          <input-ui type="number" id="delay-inp" placeholder="Delay"></input-ui>
+        </flex-mkp>
+      </div>
+
+      <space-mkp max></space-mkp>
+
+      <div>
+        <flex-mkp v-center gap-max>
+          <div class="input-name">All Steps</div>
+          <input-ui type="number" id="allSteps-inp" placeholder="All Steps"></input-ui>
+        </flex-mkp>
+
+        <space-mkp max></space-mkp>
+
+        <flex-mkp v-center gap-max>
+          <div class="input-name">Shooting Mode</div>
+          <select-ui id="shootingMode-sel">
+            <div option="inter">Interval</div>
+            <div option="pingP">Ping-Pong</div>
+          </select-ui>
+        </flex-mkp>
+
+        <space-mkp max></space-mkp>
+
+        <flex-mkp v-center gap-max>
+          <div class="input-name">Direction</div>
+          <select-ui id="direction-sel">
+            <div option="1">Clockwise</div>
+            <div option="0">Counterclockwise</div>
+          </select-ui>
+        </flex-mkp>
+
+        <space-mkp max></space-mkp>
+
+        <flex-mkp v-center gap-max>
+          <div class="input-name">WiFi name</div>
+          <input-ui type="streeng" id="wifiname-inp" placeholder="WiFi name"></input-ui>
+        </flex-mkp>
+
+        <space-mkp max></space-mkp>
+
+        <flex-mkp v-center gap-max>
+          <div class="input-name">WiFi password</div>
+          <input-ui type="streeng" id="wifipassword-inp" placeholder="WiFi password"></input-ui>
+        </flex-mkp>
+
+      </div>
+	<space-mkp max></space-mkp>
+	<button-ui outline id="save-btn">SAVE</button-ui>
+    </flex-mkp>
+  </column-mkp>
+  <space-mkp max></space-mkp>
+  <space-mkp max></space-mkp>
+  <space-mkp max></space-mkp>
+  <space-mkp max></space-mkp>
+  <div class="bottom-toolbar">
+    <column-mkp>
+        <flex-mkp h-center v-center gap-max>
+          <button-ui outline id="cw-btn">CW</button-ui>
+          <button-ui outline id="start-btn">Start</button-ui>
+          <button-ui outline id="stop-btn">Stop</button-ui>
+          <button-ui outline id="ccw-btn">CCW</button-ui>
+        </flex-mkp>
+    </column-mkp>
+  </div>
+</body>
+<script src="remote.js"></script>
+<script src="uilib/exports.js" type="module"></script>
+</html> 

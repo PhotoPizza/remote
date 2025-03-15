@@ -1,0 +1,21 @@
+{
+  "name": "UILIB",
+  "authors": [
+    "ALEX <foxrandom.com@gmail.com>"
+  ],
+  "description": "UI Library based on web-components",
+  "main": "bundle.js",
+  "keywords": [
+    "ui",
+    "ux"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

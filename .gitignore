@@ -1,0 +1,27 @@
+# Android
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/.idea/
+android/*.iml
+android/.DS_Store
+
+# Node.js
+websocket-server/node_modules/
+websocket-server/package-lock.json
+websocket-server/*.log
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# Temporary files
+**/temp_*
+**/tmp_*
+**/*.tmp
+**/*.bak 

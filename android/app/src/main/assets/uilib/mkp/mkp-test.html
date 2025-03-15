@@ -1,0 +1,62 @@
+<html>
+  <head>
+    <script src="caption/caption-mkp.js" type="module"></script>
+    <script src="column/column-mkp.js" type="module"></script>
+    <script src="block/block-mkp.js" type="module"></script>
+    <script src="space/space-mkp.js" type="module"></script>
+    <script src="flex/flex-mkp.js" type="module"></script>
+    <script src="hr/hr-mkp.js" type="module"></script>
+  </head>
+  <style>
+      body {
+        padding: 0;
+        margin: 0;
+      }
+  </style>
+  <body>
+    <column-mkp>
+      <caption-mkp>
+        <div slot="icon">#</div>
+        My Caption
+        <div slot="sub">My subheader</div>
+      </caption-mkp>
+      <div>Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque 
+        laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto 
+        beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut 
+        odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, 
+        neque porro quisquam est, qui dolorem ipsum, quia dolor sit amet consectetur adipisci[ng] velit, 
+        sed quia non numquam [do] eius modi tempora inci[di]dunt, ut labore et dolore magnam aliquam quaerat 
+        voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, 
+        nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate 
+        velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?</div>
+        <caption-mkp><div slot="icon">2</div>My Second Caption</caption-mkp>
+        <div>Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque 
+            laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto 
+            nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate 
+            velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?</div>
+        <space-mkp max></space-mkp>
+        <block-mkp>
+          <flex-mkp gap-max>
+            <div>Text in first cell</div>
+            <div>Text in second cell</div>
+          </flex-mkp>
+        </block-mkp>
+        <space-mkp max></space-mkp>
+        <block-mkp outline dashed>
+          CARD
+        </block-mkp>
+        <space-mkp max></space-mkp>
+        <block-mkp paragraph>
+          CARD
+        </block-mkp>
+        <space-mkp max></space-mkp>
+        <block-mkp paragraph glow>
+          CARD WITH GLOW
+        </block-mkp>
+        <space-mkp max></space-mkp>        
+        <hr-mkp dotted heavy></hr-mkp>
+        <space-mkp max></space-mkp>
+        <hr-mkp dashed heavy light></hr-mkp>
+    </column-mkp>
+  </body>
+</html>

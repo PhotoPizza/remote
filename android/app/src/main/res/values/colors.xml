@@ -1,0 +1,24 @@
+<resources>
+    <color name="primary_bg_color">#212121</color>
+    <color name="primary_color">#81D4FA</color>
+    <color name="secondary_bg_color">#FAFAFA</color>
+    <color name="secondary_color">#212121</color>
+    <color name="accent_color">#81D4FA</color>
+    
+    <color name="theme_1">#FFD54A</color>
+    <color name="theme_2">#8BC34A</color>
+    <color name="theme_3">#91FDEF</color>
+    <color name="theme_4">#65E0FF</color>
+    <color name="theme_5">#F48FB1</color>
+    <color name="theme_6">#DCA8FF</color>
+    <color name="theme_7">#7EDD9A</color>
+    <color name="theme_8">#AEDBFF</color>
+    <color name="theme_9">#FFCC6B</color>
+    <color name="theme_10">#FF8453</color>
+    <color name="theme_11">#97FFD4</color>
+    
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="green">#ADFF2F</color>
+    <color name="red">#FF4646</color>
+</resources> 

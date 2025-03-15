@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhotoPizza WebSocket Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input, button {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .status {
+            padding: 8px;
+            border-radius: 4px;
+            margin-top: 8px;
+        }
+        .connected {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .disconnected {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .log {
+            height: 300px;
+            overflow-y: auto;
+            background-color: #f8f9fa;
+            padding: 16px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-family: monospace;
+        }
+        .log-entry {
+            margin-bottom: 8px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+        .log-entry.received {
+            color: #0066cc;
+        }
+        .log-entry.sent {
+            color: #cc6600;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PhotoPizza WebSocket Test</h1>
+        
+        <div class="card">
+            <h2>Connection</h2>
+            <div class="form-group">
+                <label for="serverUrl">Server URL:</label>
+                <input type="text" id="serverUrl" value="ws://localhost:8000" style="width: 300px;">
+            </div>
+            <button id="connectBtn">Connect</button>
+            <button id="disconnectBtn" disabled>Disconnect</button>
+            <div id="connectionStatus" class="status disconnected">Disconnected</div>
+        </div>
+        
+        <div class="card">
+            <h2>Controls</h2>
+            <div class="controls">
+                <button id="getConfigBtn" disabled>Get Config</button>
+                <button id="startBtn" disabled>Start</button>
+                <button id="stopBtn" disabled>Stop</button>
+                <button id="cwBtn" disabled>CW</button>
+                <button id="ccwBtn" disabled>CCW</button>
+                <button id="saveBtn" disabled>Save Config</button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Configuration</h2>
+            <div class="form-group">
+                <label for="framesInput">Frames:</label>
+                <input type="number" id="framesInput" value="100">
+            </div>
+            <div class="form-group">
+                <label for="speedInput">Speed:</label>
+                <input type="number" id="speedInput" value="5000">
+            </div>
+            <div class="form-group">
+                <label for="pauseInput">Pause:</label>
+                <input type="number" id="pauseInput" value="100">
+            </div>
+            <div class="form-group">
+                <label for="delayInput">Delay:</label>
+                <input type="number" id="delayInput" value="300">
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Communication Log</h2>
+            <div id="log" class="log"></div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const serverUrlInput = document.getElementById('serverUrl');
+        const connectBtn = document.getElementById('connectBtn');
+        const disconnectBtn = document.getElementById('disconnectBtn');
+        const connectionStatus = document.getElementById('connectionStatus');
+        const getConfigBtn = document.getElementById('getConfigBtn');
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const cwBtn = document.getElementById('cwBtn');
+        const ccwBtn = document.getElementById('ccwBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const framesInput = document.getElementById('framesInput');
+        const speedInput = document.getElementById('speedInput');
+        const pauseInput = document.getElementById('pauseInput');
+        const delayInput = document.getElementById('delayInput');
+        const logContainer = document.getElementById('log');
+        
+        // WebSocket connection
+        let socket = null;
+        let config = {
+            frame: 100,
+            speed: 5000,
+            pause: 100,
+            delay: 300,
+            direction: 1,
+            state: 'waiting'
+        };
+        
+        // Helper functions
+        function updateConnectionStatus(connected) {
+            if (connected) {
+                connectionStatus.textContent = 'Connected';
+                connectionStatus.className = 'status connected';
+                connectBtn.disabled = true;
+                disconnectBtn.disabled = false;
+                getConfigBtn.disabled = false;
+                startBtn.disabled = false;
+                stopBtn.disabled = false;
+                cwBtn.disabled = false;
+                ccwBtn.disabled = false;
+                saveBtn.disabled = false;
+            } else {
+                connectionStatus.textContent = 'Disconnected';
+                connectionStatus.className = 'status disconnected';
+                connectBtn.disabled = false;
+                disconnectBtn.disabled = true;
+                getConfigBtn.disabled = true;
+                startBtn.disabled = true;
+                stopBtn.disabled = true;
+                cwBtn.disabled = true;
+                ccwBtn.disabled = true;
+                saveBtn.disabled = true;
+            }
+        }
+        
+        function addLogEntry(message, type) {
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            
+            const timestamp = new Date().toLocaleTimeString();
+            entry.innerHTML = `<strong>${timestamp}</strong> [${type}]: ${message}`;
+            
+            logContainer.appendChild(entry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+        
+        function updateConfigInputs() {
+            framesInput.value = config.frame;
+            speedInput.value = config.speed;
+            pauseInput.value = config.pause;
+            delayInput.value = config.delay;
+        }
+        
+        // Event handlers
+        connectBtn.addEventListener('click', () => {
+            const url = serverUrlInput.value;
+            
+            try {
+                socket = new WebSocket(url);
+                
+                socket.onopen = () => {
+                    updateConnectionStatus(true);
+                    addLogEntry('Connection established', 'info');
+                };
+                
+                socket.onmessage = (event) => {
+                    addLogEntry(event.data, 'received');
+                    
+                    try {
+                        const data = JSON.parse(event.data);
+                        
+                        // Update config if received
+                        if (data.frame !== undefined) {
+                            config = { ...config, ...data };
+                            updateConfigInputs();
+                        }
+                        
+                        // Handle status updates
+                        if (data.status) {
+                            addLogEntry(`Status update: Frames left: ${data.status.framesLeft}, Current step: ${data.status.currentStep}`, 'info');
+                        }
+                    } catch (error) {
+                        addLogEntry(`Error parsing message: ${error.message}`, 'error');
+                    }
+                };
+                
+                socket.onclose = () => {
+                    updateConnectionStatus(false);
+                    addLogEntry('Connection closed', 'info');
+                    socket = null;
+                };
+                
+                socket.onerror = (error) => {
+                    addLogEntry(`WebSocket error: ${error.message}`, 'error');
+                };
+            } catch (error) {
+                addLogEntry(`Failed to connect: ${error.message}`, 'error');
+            }
+        });
+        
+        disconnectBtn.addEventListener('click', () => {
+            if (socket) {
+                socket.close();
+            }
+        });
+        
+        getConfigBtn.addEventListener('click', () => {
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                socket.send('getConfig');
+                addLogEntry('getConfig', 'sent');
+            }
+        });
+        
+        startBtn.addEventListener('click', () => {
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                config.state = 'start';
+                const message = JSON.stringify({ config });
+                socket.send(message);
+                addLogEntry(message, 'sent');
+            }
+        });
+        
+        stopBtn.addEventListener('click', () => {
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                config.state = 'stop';
+                const message = JSON.stringify({ config });
+                socket.send(message);
+                addLogEntry(message, 'sent');
+            }
+        });
+        
+        cwBtn.addEventListener('click', () => {
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                config.direction = 1;
+                const message = JSON.stringify({ infinity: 1 });
+                socket.send(message);
+                addLogEntry(message, 'sent');
+            }
+        });
+        
+        ccwBtn.addEventListener('click', () => {
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                config.direction = 0;
+                const message = JSON.stringify({ infinity: 0 });
+                socket.send(message);
+                addLogEntry(message, 'sent');
+            }
+        });
+        
+        saveBtn.addEventListener('click', () => {
+            if (socket && socket.readyState === WebSocket.OPEN) {
+                // Update config from inputs
+                config.frame = parseInt(framesInput.value, 10);
+                config.speed = parseInt(speedInput.value, 10);
+                config.pause = parseInt(pauseInput.value, 10);
+                config.delay = parseInt(delayInput.value, 10);
+                config.state = 'save';
+                
+                const message = JSON.stringify({ config });
+                socket.send(message);
+                addLogEntry(message, 'sent');
+            }
+        });
+        
+        // Initialize
+        updateConnectionStatus(false);
+    </script>
+</body>
+</html> 

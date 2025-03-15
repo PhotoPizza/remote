@@ -1,0 +1,29 @@
+<html>
+  <script src="firebase/firebase-adapter.js" type="module"></script>
+  <body>
+    <firebase-adapter
+      auth
+      api-key="AIzaSyCpidl5LgoIi8_OND3Cc0ztpujRjg0LCmU"
+      auth-domain="playpic-4f4cd.firebaseapp.com"
+      database-url="https://playpic-4f4cd.firebaseio.com"
+      project-id="playpic-4f4cd"
+      storage-bucket="playpic-4f4cd.appspot.com"
+      messaging-sender-id="732685377678"
+      version="4.7.0"></firebase-adapter>
+
+    <div id="login-btn">Log In</div>
+    <div id="logout-btn">Log Out</div>
+
+    <script>
+      window.addEventListener('firebase-ready', () => {
+        console.log(firebase);
+      });
+      document.querySelector('#login-btn').onclick = () => {
+        FirebaseAdapter.logIn();
+      };
+      document.querySelector('#logout-btn').onclick = () => {
+        FirebaseAdapter.logOut();
+      };
+    </script>
+  </body>
+</html>

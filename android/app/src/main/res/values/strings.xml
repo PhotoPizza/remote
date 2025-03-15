@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">PhotoPizza Remote</string>
+    <string name="connect">Connect</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="cw">CW</string>
+    <string name="ccw">CCW</string>
+    <string name="save">SAVE</string>
+    <string name="photopizza_ip">PhotoPizza IP</string>
+    <string name="frames_total">Frames total</string>
+    <string name="speed">Speed</string>
+    <string name="pause">Pause</string>
+    <string name="delay">Delay</string>
+    <string name="all_steps">All Steps</string>
+    <string name="shooting_mode">Shooting Mode</string>
+    <string name="direction">Direction</string>
+    <string name="wifi_name">WiFi name</string>
+    <string name="wifi_password">WiFi password</string>
+    <string name="clockwise">Clockwise</string>
+    <string name="counterclockwise">Counterclockwise</string>
+    <string name="interval">Interval</string>
+    <string name="ping_pong">Ping-Pong</string>
+    <string name="connection_error">Connection error</string>
+    <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
+</resources> 
