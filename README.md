@@ -56,6 +56,30 @@ For quick installation, you can use the pre-built APK file included in this repo
 2. Install it on your Android device
 3. Allow installation from unknown sources if prompted
 
+### First Connection Guide
+
+The initial setup of the Android application involves the following steps:
+
+1. **Create a Hotspot on Your Phone:**  
+   * Create a mobile hotspot with SSID `PhotoPizza` and password `9992030360`.  
+   * This will allow the control unit to connect to your phone directly.
+
+2. **Power On the Control Unit:**  
+   * Turn on the PhotoPizza control unit.  
+   * During startup, the control unit will automatically connect to the hotspot you created.
+
+3. **Connect Through the App:**  
+   * Open the PhotoPizza Remote app on your Android device.  
+   * The app will automatically detect and connect to the control unit.
+
+4. **Optional: Configure for Home Network:**  
+   * You can continue using the hotspot method, or configure the system to use your home Wi-Fi network.  
+   * To use your home network, go to the app settings.  
+   * Enter your home Wi-Fi network parameters (SSID and password).  
+   * Save the settings.  
+   * Restart the control unit, and it will connect to your home network instead.  
+   * Your phone, when connected to the same home network, will be able to control the turntable without creating a hotspot.
+
 ### Using the App
 
 1. Connect your Android device to the same WiFi network as your PhotoPizza device
