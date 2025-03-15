@@ -84,6 +84,10 @@ The project includes a WebSocket test server that emulates the PhotoPizza device
 
 The test server emulates all the functionality of the PhotoPizza device, allowing you to test the app without an actual device.
 
+## Related Projects
+
+- [PhotoPizza DIY](https://github.com/MakerDrive/PhotoPizza) - The original open-source project for building the PhotoPizza turntable hardware. This repository contains all the necessary information, drawings, and firmware to build your own 360° product photography turntable.
+
 ## Project Structure
 
 - `android/` - Android application source code
